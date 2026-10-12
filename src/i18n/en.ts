@@ -439,6 +439,7 @@ export const en: Copy = {
     minutes: (n: number) => (n >= 60 ? `${Math.floor(n / 60)} h${n % 60 ? ` ${n % 60} min` : ""}` : `${n} min`),
     dayFree: (n: number) => `${n} free`,
     pickDay: "Tap a day on the calendar to see its times.",
+    includes: "Includes",
   },
   booking: {
     title: "Your booking",
@@ -454,6 +455,7 @@ export const en: Copy = {
     keep: "Keep",
     cancelled: "Booking cancelled",
     notFound: "We couldn't find this booking.",
+    backHome: "Back to home",
   },
   status: {
     confirmed: "Confirmed",

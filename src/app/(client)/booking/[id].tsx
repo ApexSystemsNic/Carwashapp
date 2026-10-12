@@ -9,7 +9,8 @@ import { SpinCard } from "@/features/commerce/SpinCard";
 import { STATUS_STYLE } from "@/features/booking/status";
 import { useBookingMedia } from "@/features/evidence/api";
 import { PhotoGallery } from "@/features/evidence/PhotoGallery";
-import { vehicleLabel } from "@/features/garage/vehicle";
+import { vehicleIdentifier } from "@/features/garage/vehicle";
+import { HOME } from "@/features/auth/home";
 import { ReviewCard } from "@/features/loyalty/ReviewCard";
 import { PriceBreakdown } from "@/features/pricing/PriceBreakdown";
 import { currentLocale, getCopy } from "@/i18n";
@@ -97,7 +98,7 @@ export default function BookingDetail() {
         <Text variant="displayMd">{locale === "en" ? snap.service_name_en : snap.service_name_es}</Text>
         <Row label={c.booking.when} value={when} />
         {b.vehicle ? (
-          <Row label={c.booking.vehicle} value={[vehicleLabel(b.vehicle, c), b.vehicle.plate].filter(Boolean).join(" · ")} />
+          <Row label={c.booking.vehicle} value={[vehicleIdentifier(b.vehicle, c), b.vehicle.plate].filter(Boolean).join(" · ")} />
         ) : null}
         {snap.adjustments ? (
           // Reservas desde la F5: desglose guardado al reservar (no se recalcula).
@@ -193,6 +194,7 @@ export default function BookingDetail() {
       ) : null}
 
       <View style={{ gap: space.sm }}>
+        <Button variant="quiet" label={c.booking.backHome} onPress={() => router.replace(HOME.customer)} />
         <Button
           variant="quiet"
           label={c.support.report}

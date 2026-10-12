@@ -9,6 +9,10 @@ export type BookableService = Pick<
   | "slug"
   | "name_es"
   | "name_en"
+  | "description_es"
+  | "description_en"
+  | "includes_es"
+  | "includes_en"
   | "price_car"
   | "price_suv"
   | "price_large"
@@ -39,7 +43,9 @@ export function useBookableServices() {
     queryFn: async () => {
       const { data, error } = await db()
         .from("services")
-        .select("id, slug, name_es, name_en, price_car, price_suv, price_large, currency, requires_evaluation, bay_kind, duration_minutes_car, duration_minutes_suv, duration_minutes_large")
+        .select(
+          "id, slug, name_es, name_en, description_es, description_en, includes_es, includes_en, price_car, price_suv, price_large, currency, requires_evaluation, bay_kind, duration_minutes_car, duration_minutes_suv, duration_minutes_large",
+        )
         .eq("status", "published")
         .eq("bookable", true)
         .order("sort_order");

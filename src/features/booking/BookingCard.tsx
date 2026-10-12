@@ -1,7 +1,7 @@
 import { ChevronRight } from "lucide-react-native";
 import { Pressable, StyleSheet, View } from "react-native";
 import { Card, space, StatusBadge, Text, useTheme } from "@/design";
-import { vehicleLabel } from "@/features/garage/vehicle";
+import { vehicleIdentifier } from "@/features/garage/vehicle";
 import { currentLocale, getCopy } from "@/i18n";
 import { formatDateLong, formatTime } from "@/lib/time";
 import type { MyBooking } from "./api";
@@ -13,7 +13,7 @@ export function BookingCard({ booking, onPress }: { booking: MyBooking; onPress:
   const theme = useTheme();
   const service = locale === "en" ? booking.price_snapshot.service_name_en : booking.price_snapshot.service_name_es;
   const when = `${formatDateLong(booking.starts_at, locale)} · ${formatTime(booking.starts_at, locale)}`;
-  const vehicle = booking.vehicle ? [vehicleLabel(booking.vehicle, c), booking.vehicle.plate].filter(Boolean).join(" · ") : null;
+  const vehicle = booking.vehicle ? [vehicleIdentifier(booking.vehicle, c), booking.vehicle.plate].filter(Boolean).join(" · ") : null;
   const style = STATUS_STYLE[booking.status];
 
   return (

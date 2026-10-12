@@ -66,3 +66,10 @@ export function vehicleLabel(v: Labelled, copy: Copy): string {
   const name = [v.make, v.model].filter(Boolean).join(" ");
   return name || copy.garage.kinds[v.kind];
 }
+
+/** Apodo + marca/modelo (no solo el apodo): para distinguir vehículos del mismo dueño con solo la placa. */
+export function vehicleIdentifier(v: Labelled, copy: Copy): string {
+  const makeModel = [v.make, v.model].filter(Boolean).join(" ") || null;
+  const parts = [v.nickname, makeModel].filter(Boolean);
+  return parts.length > 0 ? parts.join(" · ") : copy.garage.kinds[v.kind];
+}

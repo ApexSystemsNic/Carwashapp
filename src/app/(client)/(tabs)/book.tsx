@@ -16,7 +16,7 @@ import {
 import { MonthCalendar, TimePanel } from "@/features/booking/BookingCalendar";
 import { bookingErrorCode, bookingErrorMessage } from "@/features/booking/errors";
 import { useVehicles } from "@/features/garage/api";
-import { vehicleLabel } from "@/features/garage/vehicle";
+import { vehicleIdentifier } from "@/features/garage/vehicle";
 import { useClosures } from "@/features/owner/api";
 import { useExtras, useQuote } from "@/features/pricing/api";
 import { ExtrasPicker } from "@/features/pricing/ExtrasPicker";
@@ -103,6 +103,8 @@ export default function Book() {
     );
   }
 
+  const includesList = service ? (locale === "en" ? service.includes_en : service.includes_es) : [];
+
   const priceText = (s: BookableService) => formatPrice(priceForVehicle(s, vehicle.kind), s.currency, locale) ?? c.book.priceToConfirm;
   const durationOf = (s: BookableService) =>
     vehicle.kind === "large"
@@ -181,6 +183,7 @@ export default function Book() {
               <ServiceCard
                 key={s.id}
                 name={locale === "en" ? s.name_en : s.name_es}
+                description={locale === "en" ? s.description_en : s.description_es}
                 price={priceText(s)}
                 duration={durationOf(s) ? c.book.minutes(durationOf(s) as number) : null}
                 selected={s.id === serviceId}
@@ -207,7 +210,7 @@ export default function Book() {
             }}
             options={(vehicles.data ?? []).map((v) => ({
               value: v.id,
-              label: vehicleLabel(v, c),
+              label: vehicleIdentifier(v, c),
               sublabel: v.plate ?? c.garage.kinds[v.kind],
             }))}
           />
@@ -248,7 +251,17 @@ export default function Book() {
             <Card>
               <Text variant="displaySm">{locale === "en" ? service.name_en : service.name_es}</Text>
               <Text style={{ textTransform: "capitalize" }}>{`${formatDateLong(slot, locale)} · ${formatTime(slot, locale)}`}</Text>
-              <Text tone="muted">{[vehicleLabel(vehicle, c), vehicle.plate].filter(Boolean).join(" · ")}</Text>
+              <Text tone="muted">{[vehicleIdentifier(vehicle, c), vehicle.plate].filter(Boolean).join(" · ")}</Text>
+              {includesList.length > 0 ? (
+                <View style={{ gap: 2 }}>
+                  <Text variant="label" tone="muted">
+                    {c.book.includes}
+                  </Text>
+                  {includesList.map((item, i) => (
+                    <Text key={i} variant="bodySm">{`· ${item}`}</Text>
+                  ))}
+                </View>
+              ) : null}
               <ExtrasPicker extras={extras.data ?? []} value={addons} onChange={setAddons} />
               {quote.data ? (
                 <PriceBreakdown snapshot={quote.data} />
@@ -291,6 +304,7 @@ function Step({ n, title, done, children }: { n: number; title: string; done: bo
 
 function ServiceCard({
   name,
+  description,
   price,
   duration,
   selected,
@@ -299,6 +313,7 @@ function ServiceCard({
   testID,
 }: {
   name: string;
+  description: string;
   price: string;
   duration: string | null;
   selected: boolean;
@@ -330,6 +345,11 @@ function ServiceCard({
       <Text variant="number" style={{ color: palette.cyan }}>
         {price}
       </Text>
+      {description ? (
+        <Text variant="bodySm" tone="muted" numberOfLines={2}>
+          {description}
+        </Text>
+      ) : null}
       {duration ? (
         <View style={styles.duration}>
           <Clock size={14} color={theme.fgMuted} />

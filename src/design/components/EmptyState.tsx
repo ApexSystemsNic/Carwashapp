@@ -27,6 +27,6 @@ export function EmptyState({ icon: Icon, title, body, action }: { icon?: LucideI
 }
 
 const styles = StyleSheet.create({
-  wrap: { alignItems: "center", gap: space.md, paddingVertical: space.xxxl, paddingHorizontal: space.lg },
+  wrap: { alignItems: "center", gap: space.md, paddingVertical: space.xxxl, paddingHorizontal: space.lg, maxWidth: 480, alignSelf: "center" },
   center: { textAlign: "center" },
 });

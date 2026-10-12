@@ -1,5 +1,5 @@
 import { es } from "@/i18n/es";
-import { emptyVehicleForm, vehicleLabel, vehicleSchema } from "../vehicle";
+import { emptyVehicleForm, vehicleIdentifier, vehicleLabel, vehicleSchema } from "../vehicle";
 
 describe("formulario de vehículo", () => {
   it("normaliza: vacíos a null, placa en mayúsculas, año numérico", () => {
@@ -27,5 +27,11 @@ describe("formulario de vehículo", () => {
     expect(vehicleLabel({ kind: "car", make: "Toyota", model: "Yaris", nickname: "El rojo" }, es)).toBe("El rojo");
     expect(vehicleLabel({ kind: "car", make: "Toyota", model: "Yaris", nickname: null }, es)).toBe("Toyota Yaris");
     expect(vehicleLabel({ kind: "suv", make: null, model: null, nickname: null }, es)).toBe("SUV o camioneta");
+  });
+
+  it("identificador: siempre incluye marca y modelo, aunque haya apodo (varios carros del mismo dueño)", () => {
+    expect(vehicleIdentifier({ kind: "car", make: "Toyota", model: "Yaris", nickname: "El rojo" }, es)).toBe("El rojo · Toyota Yaris");
+    expect(vehicleIdentifier({ kind: "car", make: "Toyota", model: "Yaris", nickname: null }, es)).toBe("Toyota Yaris");
+    expect(vehicleIdentifier({ kind: "suv", make: null, model: null, nickname: null }, es)).toBe("SUV o camioneta");
   });
 });

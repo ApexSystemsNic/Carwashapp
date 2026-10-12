@@ -438,6 +438,7 @@ export const es = {
     minutes: (n: number) => (n >= 60 ? `${Math.floor(n / 60)} h${n % 60 ? ` ${n % 60} min` : ""}` : `${n} min`),
     dayFree: (n: number) => `${n} libres`,
     pickDay: "Toca un día del calendario para ver sus horas.",
+    includes: "Incluye",
   },
   booking: {
     title: "Tu reserva",
@@ -453,6 +454,7 @@ export const es = {
     keep: "Mantener",
     cancelled: "Reserva cancelada",
     notFound: "No encontramos esta reserva.",
+    backHome: "Volver al inicio",
   },
   status: {
     confirmed: "Confirmada",
